@@ -14,12 +14,13 @@
 - ⚡️ Reasonably fast
 - ✍️ Rich Text Formatting & [Markdown shortcuts](https://chirpy.dev/docs/features/markdown)
 - 📈 [Widget analytics](https://chirpy.dev/docs/features/analytics)
+- 🪄 Realtime updated comments
 
 ## 🧭 Roadmap
 
 We're working hard to make Chirpy General Available first. Here are the blocking features:
 
-- Notifications
+- [Notifications](https://github.com/devrsi0n/chirpy/issues/134)
 - Account plan
 - Payment
 - Email login without password
@@ -40,6 +41,7 @@ You can have a [self-hosted](https://chirpy.dev/docs/self-hosted) version of Chi
 - [twin.macro](https://github.com/ben-rogerson/twin.macro)
 - [urql](https://github.com/FormidableLabs/urql)
 - [next-auth](https://github.com/nextauthjs/next-auth)
+- [tiptap](https://tiptap.dev)
 - [Plausible](https://github.com/plausible/analytics)
 
 ## 🥇 Contribution

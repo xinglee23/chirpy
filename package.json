@@ -3,13 +3,16 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:both": "concurrently 'next dev' 'npm run dev:external'",
-    "dev:external": "vite --config scripts/vite.config.js",
+    "dev:both": "concurrently 'next dev' 'npm run dev:comment'",
+    "dev:comment": "vite --config scripts/vite/comment.config.js",
+    "dev:sw": "VITE_DEBUG=true npm run build:sw",
     "debug": "NODE_OPTIONS='--inspect' next dev",
-    "build": "concurrently 'next build' 'npm run build:external'",
-    "build:external": "vite build --config scripts/vite.build.config.js",
-    "build:external:dev": "vite build --config scripts/vite.dev.config.js",
-    "build:local": "dotenv -e .env.local -- concurrently 'next build' 'npm run build:external:dev'",
+    "build": "concurrently 'next build' 'npm run build:comment' 'npm run build:sw'",
+    "build:comment": "vite build --config scripts/vite/comment.config.js",
+    "build:sw": "vite build --config scripts/vite/sw.config.js",
+    "build:comment:dev": "VITE_DEBUG=true npm run build:comment",
+    "build:sw:dev": "VITE_DEBUG=true npm run build:sw",
+    "build:local": "dotenv -e .env.local -- concurrently 'next build' 'npm run build:comment:dev' 'npm run build:sw:dev'",
     "analyze": "ANALYZE=true npm run build:local",
     "start": "next start",
     "start:local": "dotenv -e .env.local -- next start",
@@ -28,6 +31,9 @@
   },
   "lint-staged": {
     "*.{json,md,scss,css}": [
+      "prettier --write"
+    ],
+    "**/generated/**/*.{ts,tsx}": [
       "prettier --write"
     ],
     "*.graphql": [
@@ -50,11 +56,11 @@
     "@react-aria/button": "3.3.4",
     "@tailwindcss/typography": "0.4.1",
     "@testing-library/cypress": "8.0.2",
-    "@tiptap/extension-link": "2.0.0-beta.34",
-    "@tiptap/extension-placeholder": "2.0.0-beta.46",
-    "@tiptap/extension-underline": "2.0.0-beta.22",
-    "@tiptap/react": "2.0.0-beta.106",
-    "@tiptap/starter-kit": "2.0.0-beta.168",
+    "@tiptap/extension-link": "2.0.0-beta.36",
+    "@tiptap/extension-placeholder": "2.0.0-beta.48",
+    "@tiptap/extension-underline": "2.0.0-beta.23",
+    "@tiptap/react": "2.0.0-beta.108",
+    "@tiptap/starter-kit": "2.0.0-beta.183",
     "canvas-confetti": "1.4.0",
     "chart.js": "3.6.2",
     "cors": "2.8.5",
@@ -87,11 +93,12 @@
     "reading-time": "1.5.0",
     "rehype": "12.0.1",
     "super-tiny-icons": "0.4.0",
-    "superjson": "1.8.0",
+    "superjson": "1.8.1",
     "tailwindcss": "2.2.19",
-    "type-fest": "2.11.0",
+    "type-fest": "2.11.2",
     "twin.macro": "2.8.2",
-    "urql": "2.0.6",
+    "urql": "2.1.3",
+    "web-push": "3.4.5",
     "wonka": "4.0.15",
     "ws": "8.4.2"
   },
@@ -129,6 +136,7 @@
     "@types/react-flatpickr": "3.8.5",
     "@types/requestidlecallback": "0.3.4",
     "@types/tailwindcss": "2.2.4",
+    "@types/web-push": "3.3.2",
     "@types/ws": "8.2.2",
     "babel-jest": "27.4.6",
     "babel-loader": "8.2.3",
@@ -171,8 +179,7 @@
   },
   "renovate": {
     "extends": [
-      "config:base",
-      ":rebaseStalePrs"
+      "config:base"
     ],
     "packageRules": [
       {

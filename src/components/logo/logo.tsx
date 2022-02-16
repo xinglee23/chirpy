@@ -1,8 +1,6 @@
 import * as React from 'react';
 import tw, { TwStyle } from 'twin.macro';
 
-import { APP_NAME } from '$/lib/constants';
-
 import { Badge } from '../badge';
 import { Link, LinkProps } from '../link';
 
@@ -38,12 +36,12 @@ export function Logo({
     <Link
       className={className}
       href="/"
-      aria-label={`Logo of ${APP_NAME}`}
+      aria-label="Logo of Chirpy"
       variant="plain"
       tw="text-violet-900 relative"
       {...linkProps}
     >
-      {showBadge && <Badge tw="absolute -right-2 -top-3 leading-none">Beta</Badge>}
+      <LogoBadge showBadge={showBadge} />
       {/* Source Sans Pro, font weight 600 */}
       <svg
         css={[sizeWidth[size], !hideSpacing && sizeSpacing[size]]}
@@ -58,3 +56,35 @@ export function Logo({
     </Link>
   );
 }
+
+function LogoBadge({ showBadge }: { showBadge?: boolean }): JSX.Element {
+  const [domain, setDomain] = React.useState('');
+  React.useEffect(() => {
+    const host = window.location.hostname;
+    if (host.startsWith('staging.')) {
+      setDomain('staging');
+    } else if (host.endsWith('vercel.app')) {
+      setDomain('preview');
+    } else if (host === 'localhost') {
+      setDomain('localhost');
+    }
+  }, []);
+
+  if (!showBadge) {
+    return <></>;
+  }
+  return (
+    <Badge
+      css={posStyle}
+      {...(domain && {
+        variant: 'solid',
+        color: 'blue',
+        css: [posStyle, tw`-right-3`],
+      })}
+    >
+      {domain || 'Beta'}
+    </Badge>
+  );
+}
+
+const posStyle = tw`absolute -right-2 -top-3 leading-none`;

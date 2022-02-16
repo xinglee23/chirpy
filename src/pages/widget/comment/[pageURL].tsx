@@ -19,7 +19,6 @@ import { CommentContextProvider } from '$/contexts/comment-context';
 import {
   CommentTreeDocument,
   CommentTreeSubscription,
-  CommentTreeSubscriptionVariables,
   useCommentTreeSubscription,
 } from '$/graphql/generated/comment';
 import { ThemeOfPageDocument, ThemeOfPageQuery } from '$/graphql/generated/page';
@@ -27,7 +26,6 @@ import { useCreateAComment } from '$/hooks/use-create-a-comment';
 import { useToggleALikeAction } from '$/hooks/use-toggle-a-like-action';
 import { useWidgetSideEffects } from '$/hooks/use-widget-side-effects';
 import { getAdminGqlClient } from '$/lib/admin-gql-client';
-import { APP_NAME } from '$/lib/constants';
 import {
   PageByUrlOnlyDocument,
   PageByUrlOnlyQuery,
@@ -76,14 +74,8 @@ export default function CommentWidgetPage(props: PageCommentProps): JSX.Element 
   }
 
   return (
-    <WidgetLayout widgetTheme={props.theme}>
-      <Head>
-        <title>{APP_NAME} comments</title>
-      </Head>
+    <WidgetLayout widgetTheme={props.theme} title="Comment">
       <CommentContextProvider projectId={props.projectId}>
-        <Head>
-          <title>{APP_NAME} Comment</title>
-        </Head>
         <div tw="pt-1">
           <CommentTrees {...{ comments, onSubmitReply, onClickLikeAction }} />
         </div>
